@@ -3,7 +3,9 @@ import 'dart:async';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:quizzes_application/Alert.dart';
-import 'package:quizzes_application/HomePage.dart';
+
+
+import 'SignInPage.dart';
 class InternetStatus extends StatefulWidget {
   const InternetStatus({Key? key}) : super(key: key);
 
@@ -13,7 +15,7 @@ class InternetStatus extends StatefulWidget {
 
 class _InternetStatusState extends State<InternetStatus> {
 
-  bool isConnected = false;
+  static bool isConnected = false;
   late StreamSubscription sub;
   //Internet Connectivity Check
   void initState(){
@@ -28,9 +30,8 @@ class _InternetStatusState extends State<InternetStatus> {
     sub.cancel();
     super.dispose();
   }
-
   @override
   Widget build(BuildContext context) {
-    return isConnected ? HomePage() : Alert();
+    return isConnected ? SignInPage() : Alert();
   }
 }

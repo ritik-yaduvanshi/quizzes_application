@@ -13,9 +13,17 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Quizzes Application"),
+        title: Text("Quizzes"),
+        backgroundColor: Colors.indigo,
+        leading: IconButton(
+          onPressed: (){
+            setState(() {
+              Navigator.of(context).pop();
+            });
+          },
+          icon: Icon(Icons.arrow_back),
+        )
       ),
-      drawer: Drawer(),
       body: Container(
         child: Center(
           child: Text('Welcome In Quizzes!'),

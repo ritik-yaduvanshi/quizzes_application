@@ -27,7 +27,9 @@ class _AlertState extends State<Alert> {
             Icon(
               Icons.wifi_off_sharp,color: Colors.red,size: 40,
             ),
-            Text('Internet Connection Lost',style: TextStyle(fontSize: 30,fontWeight: FontWeight.bold),),
+            Text('OOPS!\nNO INTERNET',style: TextStyle(fontSize: 30,fontWeight: FontWeight.bold),),
+            Text('Please check your network connection'),
+            SizedBox(height: 10,),
             CircularProgressIndicator(
               color: Colors.red,
             ),
