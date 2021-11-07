@@ -1,6 +1,13 @@
+import 'dart:async';
+
+import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:quizzes_application/Alert.dart';
 import 'package:quizzes_application/SignUpPage.dart';
+import 'package:quizzes_application/Styling.dart';
 
 import 'HomePage.dart';
 class SignInPage extends StatefulWidget {
@@ -11,6 +18,7 @@ class SignInPage extends StatefulWidget {
 }
 
 class _SignInPageState extends State<SignInPage> {
+
   // form key
   final _formKey = GlobalKey<FormState>();
   // Text editing Controller
@@ -20,12 +28,26 @@ class _SignInPageState extends State<SignInPage> {
   bool isComp = false;
   bool isPressed = true;
 
+  //Firebase Auth
+  final _auth = FirebaseAuth.instance;
+  String? errorMessage;
+
   @override
   Widget build(BuildContext context) {
-
     final emailField = TextFormField(
       controller: emailController,
       keyboardType: TextInputType.emailAddress,
+      validator: (value){
+        if (value!.isEmpty) {
+          return ("Please Enter Your Email");
+        }
+        // reg expression for email validation
+        if (!RegExp("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]")
+            .hasMatch(value)) {
+          return ("Please Enter a valid email");
+        }
+        return null;
+      },
       onSaved: (value){
         emailController.text = value!;
       },
@@ -47,6 +69,15 @@ class _SignInPageState extends State<SignInPage> {
         passwordController.text = value!;
       },
       textInputAction: TextInputAction.done,
+      validator: (value) {
+        RegExp regex = new RegExp(r'^.{6,}$');
+        if (value!.isEmpty) {
+          return ("Please Enter Your Password!");
+        }
+        if (!regex.hasMatch(value)) {
+          return ("Enter Valid Password(Min. 6 Character)");
+        }
+      },
       decoration: InputDecoration(
           prefixIcon: Icon(Icons.vpn_key),
           suffixIcon: IconButton(
@@ -69,27 +100,6 @@ class _SignInPageState extends State<SignInPage> {
       ),
     );
 
-
-
-    Widget progressBar(){
-      return Row(
-        children: [
-          CircularProgressIndicator(color: Colors.black,),
-          SizedBox(width: 24),
-          Text('Please Wait...',style: GoogleFonts.robotoSlab(fontWeight: FontWeight.bold,color: Colors.black),)
-        ],
-      );
-    }
-
-    Widget buttonChanger(){
-      return Row(
-        children: [
-          Icon(Icons.check_circle,color: Colors.green,size: 20,),
-          SizedBox(width: 24,),
-          Text('Finished',style: GoogleFonts.robotoSlab(fontWeight: FontWeight.bold,color: Colors.green),)
-        ],
-      );
-    }
 
     return Container(
       decoration: BoxDecoration(
@@ -150,18 +160,18 @@ class _SignInPageState extends State<SignInPage> {
                             isComp = true;
                           });
                           await Future.delayed(Duration(seconds: 2));
+                          signIn(emailController.text, passwordController.text);
                           setState(() {
-                            Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context)=>HomePage()),);
                             isComp = false;
                             isLoading = false;
                           });
                         },
                         child: isLoading
-                            ? isComp ? buttonChanger(): progressBar():Text('Login',style: GoogleFonts.robotoSlab(fontWeight: FontWeight.bold,color: Colors.red),),
+                            ? isComp ? Styling.buttonChanger(): Styling.progressBar():Text('Login',style: GoogleFonts.robotoSlab(fontWeight: FontWeight.bold,color: Colors.red),),
                         style: OutlinedButton.styleFrom(
                           //padding: EdgeInsets.fromLTRB(20, 15, 20, 15),
                           shape: StadiumBorder(),
-                          minimumSize: Size.fromHeight(60),
+                          fixedSize: Size(MediaQuery.of(context).size.width*0.5,60),
                           side: isLoading ? isComp ? BorderSide(width: 3,color: Colors.green): BorderSide(width: 3,color: Colors.black):BorderSide(width: 3,color: Colors.red),
                         )
                     ),
@@ -195,5 +205,46 @@ class _SignInPageState extends State<SignInPage> {
         ),
       ),
     );
+  }
+  //sign in methods
+
+  void signIn(String email, String password) async {
+    if (_formKey.currentState!.validate()) {
+      try {
+        await _auth
+            .signInWithEmailAndPassword(email: email, password: password)
+            .then((uid) => {
+          Fluttertoast.showToast(msg: "Login Successful"),
+          Navigator.of(context).pushReplacement(
+              MaterialPageRoute(builder: (context) => HomePage())),
+        });
+      } on FirebaseAuthException catch (error) {
+        switch (error.code) {
+          case "invalid-email":
+            errorMessage = "Your email address appears to be malformed.";
+
+            break;
+          case "wrong-password":
+            errorMessage = "Your password is wrong.";
+            break;
+          case "user-not-found":
+            errorMessage = "User with this email doesn't exist.";
+            break;
+          case "user-disabled":
+            errorMessage = "User with this email has been disabled.";
+            break;
+          case "too-many-requests":
+            errorMessage = "Too many requests";
+            break;
+          case "operation-not-allowed":
+            errorMessage = "Signing in with Email and Password is not enabled.";
+            break;
+          default:
+            errorMessage = "An undefined Error happened.";
+        }
+        Fluttertoast.showToast(msg: errorMessage!);
+        print(error.code);
+      }
+    }
   }
 }

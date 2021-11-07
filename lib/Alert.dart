@@ -1,41 +1,38 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-class Alert extends StatefulWidget {
-  const Alert({Key? key}) : super(key: key);
-
-  @override
-  _AlertState createState() => _AlertState();
-}
-
-class _AlertState extends State<Alert> {
-
-
-  Widget build(BuildContext context) {
+import 'package:google_fonts/google_fonts.dart';
+class Alert{
+  static Widget alertMsg(){
     return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        leading: Icon(
-          Icons.warning_amber_outlined,color: Colors.white,size: 40,
-        ),
-        title: Text('Warning'),
-        centerTitle: true,
-        backgroundColor: Colors.red,
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+        backgroundColor: Colors.white,
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
-            Icon(
-              Icons.wifi_off_sharp,color: Colors.red,size: 40,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget> [
+                Icon(
+                  Icons.warning_amber_outlined,color: Colors.red,size: 40,
+                ),
+                Text('Warning',style: GoogleFonts.irishGrover(fontWeight: FontWeight.bold,fontSize: 25,color: Colors.red),)
+              ],
             ),
-            Text('OOPS!\nNO INTERNET',style: TextStyle(fontSize: 30,fontWeight: FontWeight.bold),),
-            Text('Please check your network connection'),
-            SizedBox(height: 10,),
-            CircularProgressIndicator(
-              color: Colors.red,
-            ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(
+                  Icons.wifi_off_sharp,color: Colors.red,size: 40,
+                ),
+                Text('OOPS!\nNO INTERNET',style: TextStyle(fontSize: 30,fontWeight: FontWeight.bold),),
+                Text('Please check your network connection'),
+                SizedBox(height: 10,),
+                CircularProgressIndicator(
+                  color: Colors.red,
+                ),
+              ],
+            )
           ],
-        ),
-      )
+        )
     );
   }
 }
