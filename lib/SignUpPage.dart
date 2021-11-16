@@ -296,7 +296,7 @@ class _SignUpPageState extends State<SignUpPage> {
                        ? isComp1 ?Styling.buttonChanger() : Styling.progressBar() : Text('Sign Up',style: GoogleFonts.robotoSlab(fontWeight: FontWeight.bold,color: Colors.red),),
                      style: OutlinedButton.styleFrom(
                        shape: StadiumBorder(),
-                       fixedSize: Size(MediaQuery.of(context).size.width*0.5,60),
+                       fixedSize: Size(MediaQuery.of(context).size.width*0.7,60),
                        side: isLoad ? isComp1 ? BorderSide(width: 3,color: Colors.green): BorderSide(width: 3,color: Colors.black):BorderSide(width: 3,color: Colors.red),
                      )
                     ),

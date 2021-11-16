@@ -6,8 +6,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:quizzes_application/Alert.dart';
+import 'package:quizzes_application/Quant%20Page.dart';
 import 'package:quizzes_application/SignInPage.dart';
 import 'package:quizzes_application/Styling.dart';
+import 'package:quizzes_application/VerbalPage.dart';
 import 'package:quizzes_application/user_model.dart';
 import 'UserInfo.dart';
 class HomePage extends StatefulWidget {
@@ -38,20 +40,20 @@ class _HomePageState extends State<HomePage> {
   bool isLoad = false;
   bool isComp1 = false;
 
-  Widget selectSubject(String subjectName,double h,double w){
 
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
+  Widget selectSubject(String subjectName,double h,double w){
+    return Expanded(
       child: Container(
+        margin: EdgeInsets.only(left: 10,right: 10),
         height: h,
         width: w,
         decoration: BoxDecoration(
           gradient: LinearGradient(
-            colors: [Colors.lightBlueAccent,Colors.white,Colors.lightGreenAccent],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
+            colors: [Colors.blueAccent,Colors.white,Colors.blueAccent,Colors.white],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
           ),
-          borderRadius: BorderRadius.circular(15),
+          borderRadius: BorderRadius.circular(10),
         ),
         child: Center(child: Text('$subjectName',style: TextStyle(fontWeight: FontWeight.bold),)),
       ),
@@ -77,8 +79,8 @@ class _HomePageState extends State<HomePage> {
               decoration: BoxDecoration(
                   gradient: LinearGradient(
                     colors: [Colors.lightBlueAccent,Colors.white,Colors.greenAccent],
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
+                    begin: Alignment.center,
+                    end: Alignment.bottomCenter,
                   )
               ),
               child: Row(
@@ -136,86 +138,144 @@ class _HomePageState extends State<HomePage> {
       ),
       body: Container(
         child: SingleChildScrollView(
-          child : Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              RichText(
-                text: TextSpan(
-                  text: 'Qui',
-                  style: GoogleFonts.fruktur(fontSize: 70,fontWeight: FontWeight.bold,color:Colors.deepOrangeAccent),
-                  children: const<TextSpan>[
-                    TextSpan(
-                      text: 'zz',style: TextStyle(color: Colors.black),
+          child : Center(
+            child: Column(
+              children: [
+                RichText(
+                  text: TextSpan(
+                    text: 'Qui',
+                    style: GoogleFonts.fruktur(fontSize: 70,fontWeight: FontWeight.bold,color:Colors.deepOrangeAccent),
+                    children: const<TextSpan>[
+                      TextSpan(
+                        text: 'zz',style: TextStyle(color: Colors.black),
+                      ),
+                      TextSpan(
+                        text: 'es',style: TextStyle(color:Colors.yellowAccent),
+                      )
+                    ],
+                  ),
+                ),
+
+                SizedBox(height: 10,),
+                Text('Choose! Anyone Of These Subjects?',style: GoogleFonts.irishGrover(fontWeight: FontWeight.bold,fontSize: 18,color: Colors.white),),
+                SizedBox(height: 20,),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    GestureDetector(
+                      child: selectSubject('Quant Aptitude', conHeight, conWidth),
+                      onTap: (){
+                        setState(() {
+                          Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context)=>QuantPage()));
+                        });
+                      },
                     ),
-                    TextSpan(
-                      text: 'es',style: TextStyle(color:Colors.yellowAccent),
-                    )
+                    GestureDetector(
+                      child: selectSubject('Verbal Aptitude', conHeight, conWidth),
+                      onTap: (){
+                        setState(() {
+                          Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context)=>VerbalPage()));
+                        });
+                      },
+                    ),
+                    GestureDetector(
+                      child: selectSubject('Logical Aptitude', conHeight, conWidth),
+                      onTap: (){
+                        setState(() {
+                          Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context)=>VerbalPage()));
+                        });
+                      },
+                    ),
                   ],
                 ),
-              ),
-              RichText(
-                text: TextSpan(
-                    text: 'Welcome : ',
-                    style: GoogleFonts.irishGrover(fontWeight: FontWeight.bold,fontSize: 25,color: Colors.white),
-                    children: <TextSpan>[
-                      TextSpan(text:'${loggedInUser.firstName} ${loggedInUser.secondName} !!',style: TextStyle(color: Colors.red)),
-                    ]
+                SizedBox(height: 20,),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    GestureDetector(
+                      child: selectSubject('Java', conHeight, conWidth),
+                      onTap: (){
+                        setState(() {
+                          Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context)=>VerbalPage()));
+                        });
+                      },
+                    ),
+                    GestureDetector(
+                      child: selectSubject('C', conHeight, conWidth),
+                      onTap: (){
+                        setState(() {
+                          Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context)=>VerbalPage()));
+                        });
+                      },
+                    ),
+                    GestureDetector(
+                      child: selectSubject('Python', conHeight, conWidth),
+                      onTap: (){
+                        setState(() {
+                          Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context)=>VerbalPage()));
+                        });
+                      },
+                    ),
+                  ],
                 ),
-              ),
-              SizedBox(height: 10,),
-              Text('Choose! Anyone Of These Subjects?',style: GoogleFonts.irishGrover(fontWeight: FontWeight.bold,fontSize: 18,color: Colors.black),),
-              SizedBox(height: 20,),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  selectSubject('Verbal Aptitude!',conHeight,conWidth),
-                  selectSubject('Quant Aptitude!',conHeight,conWidth),
-                  selectSubject('Logical Aptitude!',conHeight,conWidth),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  selectSubject('Java',conHeight,conWidth),
-                  selectSubject('Python',conHeight,conWidth),
-                  selectSubject('C Programming',conHeight,conWidth),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  selectSubject('Computer Awareness!',conHeight,conWidth),
-                  selectSubject('Operating System',conHeight,conWidth),
-                  selectSubject('DataBase Management',conHeight,conWidth),
-                ],
-              ),
-              SizedBox(height: 10,),
-              Text('Create Your Own Quiz!',style: GoogleFonts.fruktur(fontSize: 25,fontWeight: FontWeight.bold,color:Colors.black),),
-              SizedBox(height: 20,),
-              OutlinedButton(
-                  onPressed: ()async{
-                    setState(() {
-                      isLoad = true;
-                    });
-                    await Future.delayed(Duration(seconds: 2));
-                    setState(() {
-                      isComp1 = true;
-                    });
-                    await Future.delayed(Duration(seconds: 2));
-                    setState(() {
-                      isComp1 = false;
-                      isLoad = false;
-                    });
-                  },
-                  child: isLoad
-                      ? isComp1 ?Styling.buttonChanger() : Styling.progressBar() : Text('Create Quiz',style: GoogleFonts.robotoSlab(fontWeight: FontWeight.bold,color: Colors.red),),
-                  style: OutlinedButton.styleFrom(
-                    shape: StadiumBorder(),
-                    fixedSize: Size(MediaQuery.of(context).size.width*0.5,60),
-                    side: isLoad ? isComp1 ? BorderSide(width: 3,color: Colors.green): BorderSide(width: 3,color: Colors.black):BorderSide(width: 3,color: Colors.red),
-                  )
-              ),
-            ],
+                SizedBox(height: 20,),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    GestureDetector(
+                      child: selectSubject('DBMS', conHeight, conWidth),
+                      onTap: (){
+                        setState(() {
+                          Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context)=>VerbalPage()));
+                        });
+                      },
+                    ),
+                    GestureDetector(
+                      child: selectSubject('OS', conHeight, conWidth),
+                      onTap: (){
+                        setState(() {
+                          Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context)=>VerbalPage()));
+                        });
+                      },
+                    ),
+                    GestureDetector(
+                      child: selectSubject('Computer', conHeight, conWidth),
+                      onTap: (){
+                        setState(() {
+                          Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context)=>VerbalPage()));
+                        });
+                      },
+                    ),
+                  ],
+                ),
+                SizedBox(height: 20,),
+                Text('Create Your Own Quiz!',style: GoogleFonts.fruktur(fontSize: 25,fontWeight: FontWeight.bold,color:Colors.black),),
+                SizedBox(height: 20,),
+                OutlinedButton(
+                    onPressed: ()async{
+                      setState(() {
+                        isLoad = true;
+                      });
+                      await Future.delayed(Duration(seconds: 2));
+                      setState(() {
+                        isComp1 = true;
+                      });
+                      await Future.delayed(Duration(seconds: 2));
+                      setState(() {
+                        isComp1 = false;
+                        isLoad = false;
+                      });
+                    },
+                    child: isLoad
+                        ? isComp1 ?Styling.buttonChanger() : Styling.progressBar() : Text('Create Quiz',style: GoogleFonts.robotoSlab(fontWeight: FontWeight.bold,color: Colors.red),),
+                    style: OutlinedButton.styleFrom(
+                      shape: StadiumBorder(),
+                      fixedSize: Size(MediaQuery.of(context).size.width*0.7,60),
+                      side: isLoad ? isComp1 ? BorderSide(width: 3,color: Colors.green): BorderSide(width: 3,color: Colors.black):BorderSide(width: 3,color: Colors.red),
+                    )
+                ),
+              ],
+            ),
           ),
         ),
       ),

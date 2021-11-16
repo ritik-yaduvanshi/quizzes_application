@@ -171,7 +171,7 @@ class _SignInPageState extends State<SignInPage> {
                         style: OutlinedButton.styleFrom(
                           //padding: EdgeInsets.fromLTRB(20, 15, 20, 15),
                           shape: StadiumBorder(),
-                          fixedSize: Size(MediaQuery.of(context).size.width*0.5,60),
+                          fixedSize: Size(MediaQuery.of(context).size.width*0.7,60),
                           side: isLoading ? isComp ? BorderSide(width: 3,color: Colors.green): BorderSide(width: 3,color: Colors.black):BorderSide(width: 3,color: Colors.red),
                         )
                     ),
