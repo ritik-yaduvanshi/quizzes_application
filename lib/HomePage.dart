@@ -9,6 +9,7 @@ import 'package:quizzes_application/Alert.dart';
 import 'package:quizzes_application/Quant%20Page.dart';
 import 'package:quizzes_application/SignInPage.dart';
 import 'package:quizzes_application/Styling.dart';
+import 'package:quizzes_application/UserQuesScreen.dart';
 import 'package:quizzes_application/VerbalPage.dart';
 import 'package:quizzes_application/user_model.dart';
 import 'UserInfo.dart';
@@ -40,30 +41,75 @@ class _HomePageState extends State<HomePage> {
   bool isLoad = false;
   bool isComp1 = false;
 
-
   Widget selectSubject(String subjectName,double h,double w){
-    return Expanded(
-      child: Container(
-        margin: EdgeInsets.only(left: 10,right: 10),
-        height: h,
-        width: w,
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [Colors.blueAccent,Colors.white,Colors.blueAccent,Colors.white],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-          ),
-          borderRadius: BorderRadius.circular(10),
+    return Container(
+      margin: EdgeInsets.only(left: 10,right: 10),
+      height: h,
+      width: w,
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [Colors.blueAccent,Colors.white,Colors.blueAccent,Colors.white],
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
         ),
-        child: Center(child: Text('$subjectName',style: TextStyle(fontWeight: FontWeight.bold),)),
+        borderRadius: BorderRadius.circular(10),
       ),
+      child: Center(child: Text('$subjectName',style: TextStyle(fontWeight: FontWeight.bold),)),
     );
   }
 
+  //PopUp AlertDialog
+
+  void showPopUp(BuildContext context,double h,double w){
+    int num = 0;
+    var popUp = AlertDialog(
+      title: Text('Enter The Value!'),
+      actions: [
+        Column(
+          children: <Widget>[
+            TextField(
+              maxLength: 2,
+              decoration: InputDecoration(
+                labelText: 'Number Of Questions',
+                hintText: '10',
+              ),
+              onChanged: (text){
+                num = int.parse(text);
+              },
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                TextButton(
+                  child: Text('Back'),
+                  onPressed: (){
+                    setState(() {
+                      Navigator.of(context).pop();
+                    });
+                  },
+                ),
+                TextButton(
+                  child: Text('Submit!'),
+                  onPressed: (){
+                    setState(() {
+                      Navigator.of(context).push(MaterialPageRoute(builder: (context)=>UserQuesScreen(h,w,num)));
+                    });
+                  },
+                ),
+              ],
+            ),
+          ],
+        ),
+      ],
+    );
+    showDialog(context: context, builder: (BuildContext context)=>popUp,barrierDismissible: false);
+  }
 
 
   @override
   Widget build(BuildContext context) {
+    double nextConHeight = MediaQuery.of(context).size.height*.5;
+    double nextConWidth = MediaQuery.of(context).size.width*.7;
     double conHeight = MediaQuery.of(context).size.height*.08;
     double conWidth = MediaQuery.of(context).size.width*.25;
     return Scaffold(
@@ -264,6 +310,8 @@ class _HomePageState extends State<HomePage> {
                       setState(() {
                         isComp1 = false;
                         isLoad = false;
+                        showPopUp(context, nextConHeight, nextConWidth);
+                        //Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context)=>UserQuesScreen(nextConHeight,nextConWidth,5)));
                       });
                     },
                     child: isLoad

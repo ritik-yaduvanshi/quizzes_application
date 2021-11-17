@@ -24,13 +24,6 @@ class Styling{
     );
   }
 
-  static Widget Display(){
-    return Container(
-      child:Column(
-        children: <Widget>[
-          
-        ],
-      ),
-    );
-  }
+
+
 }
