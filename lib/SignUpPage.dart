@@ -1,15 +1,15 @@
 import 'dart:async';
+import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:quizzes_application/Alert.dart';
-import 'package:quizzes_application/SignInPage.dart';
 import 'package:quizzes_application/Styling.dart';
 import 'package:quizzes_application/user_model.dart';
+import 'package:image_picker/image_picker.dart';
+
 
 import 'HomePage.dart';
 class SignUpPage extends StatefulWidget {
@@ -56,6 +56,92 @@ class _SignUpPageState extends State<SignUpPage> {
   bool isLoad = false;
   bool isPressed = true;
   bool isPressed1 = true;
+
+
+  String  _imagePath='';
+  bool isPicked(){
+    if(_imagePath.isNotEmpty)return true;
+    return false;
+  }
+  final ImagePicker _picker = ImagePicker();
+
+
+  Widget userImage(){
+    return CircleAvatar(
+      backgroundImage: FileImage(File(_imagePath)),
+      radius: 60,
+    );
+  }
+
+  Widget profileImage(){
+    return Center(
+      child: Stack(
+        children: <Widget>[
+          isPicked() ? userImage() :CircleAvatar(
+            backgroundImage: AssetImage('Images/blankProfile.png'),
+            radius: 60,
+          ),
+          Positioned(
+            bottom: 20.0,
+            right: 10.0,
+            child: InkWell(
+              onTap: (){
+                showModalBottomSheet(
+                    context: context,
+                    builder: ((builder)=>bottomSheet()),
+                );
+              },
+              child: Icon(
+                Icons.camera_alt,
+                color: Colors.teal,
+                size: 30.0,
+              ),
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget bottomSheet(){
+    return Container(
+      height: 100,
+      width: MediaQuery.of(context).size.width,
+      margin: EdgeInsets.symmetric(horizontal: 20,vertical: 20),
+      child: Column(
+        children: <Widget>[
+          Text('Choose Profile Photo',style: GoogleFonts.irishGrover(fontSize: 20.0),),
+          SizedBox(height: 20,),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              TextButton.icon(
+                  onPressed: (){
+                    takePicture(ImageSource.camera);
+                  },
+                  icon: Icon(Icons.camera,color: Colors.teal,),
+                  label: Text('Camera',style: TextStyle(color: Colors.black),)
+              ),
+              TextButton.icon(
+                  onPressed: (){
+                    takePicture(ImageSource.gallery);
+                  },
+                  icon: Icon(Icons.image,color: Colors.teal,),
+                  label: Text('Gallery',style: TextStyle(color: Colors.black),),
+              ),
+            ],
+          )
+        ],
+      ),
+    );
+  }
+
+  void takePicture(ImageSource source) async{
+    final pickedFile = await _picker.pickImage(source: source);
+    setState(() {
+      _imagePath = pickedFile!.path;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -265,6 +351,8 @@ class _SignUpPageState extends State<SignUpPage> {
                         ]
                       ),
                     ),
+                    SizedBox(height: 20,),
+                    profileImage(),
                     SizedBox(height: 20,),
                     nameField,
                     SizedBox(height: 10,),

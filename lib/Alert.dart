@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 class Alert{
+
   static Widget alertMsg(){
     return Scaffold(
         backgroundColor: Colors.white,

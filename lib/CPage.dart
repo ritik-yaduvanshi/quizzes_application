@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
-class LogicalPage extends StatefulWidget {
-  const LogicalPage({Key? key}) : super(key: key);
+class CPage extends StatefulWidget {
+  const CPage({Key? key}) : super(key: key);
 
   @override
-  _LogicalPageState createState() => _LogicalPageState();
+  _CPageState createState() => _CPageState();
 }
 
-class _LogicalPageState extends State<LogicalPage> {
-
+class _CPageState extends State<CPage> {
   static double heights=0.0;
   static double widths=0.0;
 
@@ -17,7 +16,7 @@ class _LogicalPageState extends State<LogicalPage> {
       width: widths,
       decoration: BoxDecoration(
         gradient: LinearGradient(
-          colors: [Colors.white,Colors.indigo,Colors.white],
+          colors: [Colors.white,Colors.purple,Colors.white],
           begin: Alignment.center,
           end: Alignment.bottomCenter,
         ),
@@ -43,9 +42,9 @@ class _LogicalPageState extends State<LogicalPage> {
     return Scaffold(
       backgroundColor: Colors.white60,
       appBar: AppBar(
-        title: Text('Logical Aptitude'),
+        title: Text('C Programming'),
         centerTitle: true,
-        backgroundColor: Colors.indigo,
+        backgroundColor: Colors.purple,
       ),
       body: Container(
         child: Center(
@@ -54,35 +53,27 @@ class _LogicalPageState extends State<LogicalPage> {
               children: <Widget>[
                 SizedBox(height: 15,),
                 GestureDetector(
-                  child: selectChoice(1, 'Alphanumeric series'),
+                  child: selectChoice(1, 'Basics Of C'),
                   onTap: (){
                     //To Do
                   },
                 ),
                 SizedBox(height: 15,),
-                selectChoice(2, 'Blood Relations'),
+                selectChoice(2, 'Data Types'),
                 SizedBox(height: 15,),
-                selectChoice(3, 'Coding-Decoding'),
+                selectChoice(3, 'Input - Output'),
                 SizedBox(height: 15,),
-                selectChoice(4, 'Decision Making'),
+                selectChoice(4, 'Operators'),
                 SizedBox(height: 15,),
-                selectChoice(5, 'Directions'),
+                selectChoice(5, 'Loops'),
                 SizedBox(height: 15,),
-                selectChoice(6, 'Dices'),
+                selectChoice(6, 'Arrays'),
                 SizedBox(height: 15,),
-                selectChoice(7, 'Input - Output'),
+                selectChoice(7, 'Strings'),
                 SizedBox(height: 15,),
-                selectChoice(8, 'Odd One Out'),
+                selectChoice(8, 'Pointers'),
                 SizedBox(height: 15,),
-                selectChoice(9, 'Paper Folding'),
-                SizedBox(height: 15,),
-                selectChoice(10, 'Pattern Series'),
-                SizedBox(height: 15,),
-                selectChoice(11, 'Seating Arrangements'),
-                SizedBox(height: 15,),
-                selectChoice(12, 'Statements And Conclusion'),
-                SizedBox(height: 15,),
-                selectChoice(13, 'Syllogism'),
+                selectChoice(9, 'Storage classes'),
               ],
             ),
           ),

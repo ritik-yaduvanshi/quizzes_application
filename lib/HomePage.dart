@@ -1,17 +1,22 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:quizzes_application/Alert.dart';
+import 'package:quizzes_application/InfoPage.dart';
+import 'package:quizzes_application/JavaScreen.dart';
 import 'package:quizzes_application/Quant%20Page.dart';
 import 'package:quizzes_application/SignInPage.dart';
 import 'package:quizzes_application/Styling.dart';
 import 'package:quizzes_application/UserQuesScreen.dart';
 import 'package:quizzes_application/VerbalPage.dart';
 import 'package:quizzes_application/user_model.dart';
+import 'CPage.dart';
+import 'LogicalPage.dart';
+import 'PythonPage.dart';
+import 'QuestionStore.dart';
 import 'UserInfo.dart';
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -24,6 +29,18 @@ class _HomePageState extends State<HomePage> {
 
   User? user = FirebaseAuth.instance.currentUser;
   UserModel loggedInUser = UserModel();
+  String _imagePath ='';
+  bool isPicked(){
+    if(_imagePath.isNotEmpty)return true;
+    return false;
+  }
+
+  Widget userImage(){
+    return CircleAvatar(
+      backgroundImage: FileImage(File(_imagePath)),
+      radius: 40,
+    );
+  }
 
   @override
   void initState() {
@@ -37,18 +54,22 @@ class _HomePageState extends State<HomePage> {
       setState(() {});
     });
   }
+  static String _subName = '';
+  static String _userName = '';
+  Sub obj = Sub();
 
   bool isLoad = false;
   bool isComp1 = false;
 
   Widget selectSubject(String subjectName,double h,double w){
+    _subName = subjectName;
     return Container(
       margin: EdgeInsets.only(left: 10,right: 10),
       height: h,
       width: w,
       decoration: BoxDecoration(
         gradient: LinearGradient(
-          colors: [Colors.blueAccent,Colors.white,Colors.blueAccent,Colors.white],
+          colors: [Colors.deepOrangeAccent,Colors.white,Colors.deepOrange,Colors.white],
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
         ),
@@ -93,6 +114,7 @@ class _HomePageState extends State<HomePage> {
                   onPressed: (){
                     setState(() {
                       Navigator.of(context).push(MaterialPageRoute(builder: (context)=>UserQuesScreen(h,w,num)));
+                      obj.setInfo(_subName,_userName);
                     });
                   },
                 ),
@@ -110,10 +132,11 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     double nextConHeight = MediaQuery.of(context).size.height*.5;
     double nextConWidth = MediaQuery.of(context).size.width*.7;
-    double conHeight = MediaQuery.of(context).size.height*.08;
+    double conHeight = MediaQuery.of(context).size.height*.06;
     double conWidth = MediaQuery.of(context).size.width*.25;
+    _userName = '${loggedInUser.firstName} ${loggedInUser.secondName}';
     return Scaffold(
-      backgroundColor: Colors.indigo,
+      backgroundColor: Colors.orangeAccent,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -124,7 +147,7 @@ class _HomePageState extends State<HomePage> {
             DrawerHeader(
               decoration: BoxDecoration(
                   gradient: LinearGradient(
-                    colors: [Colors.lightBlueAccent,Colors.white,Colors.greenAccent],
+                    colors: [Colors.orangeAccent,Colors.white,Colors.deepOrangeAccent],
                     begin: Alignment.center,
                     end: Alignment.bottomCenter,
                   )
@@ -132,15 +155,16 @@ class _HomePageState extends State<HomePage> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  CircleAvatar(
-                    radius: 30.0,
+                  isPicked()? userImage() : CircleAvatar(
+                    backgroundImage: AssetImage('Images/blankProfile.png'),
+                    radius: 40.0,
                   ),
                   Text('Welcome Back!\n${loggedInUser.firstName} ${loggedInUser.secondName}\n${loggedInUser.email},',style: TextStyle(fontWeight: FontWeight.bold),),
                 ],
               ),
             ),
             Card(
-              color: Colors.indigo,
+              color: Colors.deepOrangeAccent,
               child: GestureDetector(
                 child: ListTile(
                   leading: Icon(Icons.account_circle),
@@ -154,7 +178,7 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             Card(
-              color: Colors.indigo,
+              color: Colors.deepOrangeAccent,
               child: GestureDetector(
                 child: ListTile(
                   leading: Icon(Icons.account_circle),
@@ -166,7 +190,7 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             Card(
-              color: Colors.indigo,
+              color: Colors.deepOrangeAccent,
               child: GestureDetector(
                 child: ListTile(
                   leading: Icon(Icons.announcement_sharp),
@@ -174,7 +198,7 @@ class _HomePageState extends State<HomePage> {
                 ),
                 onTap: (){
                   setState(() {
-                    //Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context)=>UserInformation()));
+                    Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context)=>InfoPage()));
                   });
                 },
               ),
@@ -187,18 +211,11 @@ class _HomePageState extends State<HomePage> {
           child : Center(
             child: Column(
               children: [
+                SizedBox(height: 40,),
                 RichText(
                   text: TextSpan(
-                    text: 'Qui',
-                    style: GoogleFonts.fruktur(fontSize: 70,fontWeight: FontWeight.bold,color:Colors.deepOrangeAccent),
-                    children: const<TextSpan>[
-                      TextSpan(
-                        text: 'zz',style: TextStyle(color: Colors.black),
-                      ),
-                      TextSpan(
-                        text: 'es',style: TextStyle(color:Colors.yellowAccent),
-                      )
-                    ],
+                    text: 'Quizzes',
+                    style: GoogleFonts.fruktur(fontSize: 70,fontWeight: FontWeight.bold,color:Colors.black),
                   ),
                 ),
 
@@ -228,7 +245,7 @@ class _HomePageState extends State<HomePage> {
                       child: selectSubject('Logical Aptitude', conHeight, conWidth),
                       onTap: (){
                         setState(() {
-                          Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context)=>VerbalPage()));
+                          Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context)=>LogicalPage()));
                         });
                       },
                     ),
@@ -242,7 +259,7 @@ class _HomePageState extends State<HomePage> {
                       child: selectSubject('Java', conHeight, conWidth),
                       onTap: (){
                         setState(() {
-                          Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context)=>VerbalPage()));
+                          Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context)=>JavaScreen()));
                         });
                       },
                     ),
@@ -250,7 +267,7 @@ class _HomePageState extends State<HomePage> {
                       child: selectSubject('C', conHeight, conWidth),
                       onTap: (){
                         setState(() {
-                          Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context)=>VerbalPage()));
+                          Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context)=>CPage()));
                         });
                       },
                     ),
@@ -258,7 +275,7 @@ class _HomePageState extends State<HomePage> {
                       child: selectSubject('Python', conHeight, conWidth),
                       onTap: (){
                         setState(() {
-                          Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context)=>VerbalPage()));
+                          Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context)=>PythonPage()));
                         });
                       },
                     ),

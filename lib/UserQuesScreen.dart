@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'FinalQuesScreen.dart';
 import 'QuestionStore.dart';
 class UserQuesScreen extends StatefulWidget {
   //const UserQuesScreen({Key? key}) : super(key: key);
@@ -13,6 +14,9 @@ class UserQuesScreen extends StatefulWidget {
 
 class _UserQuesScreenState extends State<UserQuesScreen> {
 
+  final _formKey = GlobalKey<FormState>();
+
+
   TextEditingController  quesController = TextEditingController();
   TextEditingController corrAnsController = TextEditingController();
   TextEditingController firstChoice = TextEditingController();
@@ -24,17 +28,12 @@ class _UserQuesScreenState extends State<UserQuesScreen> {
   double conHeight;
   double conWidth;
   int quesNo;
+  QuestionBank obj = QuestionBank();
   _UserQuesScreenState(this.conHeight,this.conWidth,this.quesNo);
 
-  int _quesNo = 0;
-  int _quesAnsNo = 0;
 
-  static List<QuestionStore> userQuesList = [];
-  List<String> list1 = [];
-  List<String> list2 = [];
-  List<String> list3 = [];
-  List<String> list4 = [];
 
+  //initial State
   void initState(){
     super.initState();
     fillBox();
@@ -43,20 +42,22 @@ class _UserQuesScreenState extends State<UserQuesScreen> {
 
   void fillBox(){
     int val = quesNo;
+    widgetList.add(SizedBox(height: 20,));
     for(int i = 0;i<val;i++){
       widgetList.add(quesBox(i+1));
       widgetList.add(SizedBox(height: 10,));
-
     }
+    widgetList.add(pressButton());
+    widgetList.add(SizedBox(height: 15));
   }
-  //filling the user ques and ans choices
-  void fillData(){
-    userQuesList.add(QuestionStore(question: quesController.text, corrAns: corrAnsController.text));
-    list1.add(firstChoice.text);
-    list2.add(secondChoice.text);
-    list3.add(thirdChoice.text);
-    list4.add(fourthChoice.text);
+
+  //check WidgetList is Empty or not
+  bool isWidgetLen(){
+    bool res = false;
+    if(widgetList.length==2)res = true;
+    return res;
   }
+
   //clear all controller data after saving the value
   void clearData(){
     quesController.clear();
@@ -66,13 +67,6 @@ class _UserQuesScreenState extends State<UserQuesScreen> {
     secondChoice.clear();
     thirdChoice.clear();
     fourthChoice.clear();
-  }
-  void clearQuesAns(){
-    userQuesList.clear();
-    list1.clear();
-    list2.clear();
-    list3.clear();
-    list4.clear();
   }
 
   Widget quesBox(int index){
@@ -205,7 +199,7 @@ class _UserQuesScreenState extends State<UserQuesScreen> {
           ElevatedButton(
             onPressed: (){
               setState(() {
-                fillData();
+                obj.fillData(quesController.text,corrAnsController.text,firstChoice.text,secondChoice.text,thirdChoice.text,fourthChoice.text);
                 widgetList.removeAt(index-1);
                 clearData();
               });
@@ -221,12 +215,26 @@ class _UserQuesScreenState extends State<UserQuesScreen> {
       ),
     );
   }
-
+  Widget pressButton(){
+    return Center(
+      child: ElevatedButton(
+        onPressed: (){
+          setState(() {
+            Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context)=>FinalQuesScreen(quesNo,obj)));
+          });
+        },
+        child: Text('Start Quiz!',style: TextStyle(fontWeight: FontWeight.bold),),
+        style: ElevatedButton.styleFrom(
+          primary: Colors.red,
+          shape: StadiumBorder(),
+          fixedSize: Size(conWidth*0.7,50),
+        ),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
-    double h = MediaQuery.of(context).size.height*0.5;
-    double w = MediaQuery.of(context).size.width*0.7;
     return Scaffold(
       backgroundColor: Colors.white60,
       appBar: AppBar(
@@ -235,7 +243,6 @@ class _UserQuesScreenState extends State<UserQuesScreen> {
           onPressed: (){
             setState(() {
               widgetList.clear();
-              clearQuesAns();
               Navigator.of(context).pop();
             });
           },
@@ -247,7 +254,7 @@ class _UserQuesScreenState extends State<UserQuesScreen> {
       body: Container(
         child: Center(
           child: SingleChildScrollView(
-            child: Column(
+            child:Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: widgetList,
             ),

@@ -20,6 +20,8 @@ version: 1.0.0+1
 environment:
   sdk: ">=2.12.0 <3.0.0"
 
+
+
 dependencies:
   flutter:
     sdk: flutter
@@ -38,6 +40,9 @@ dependencies:
   cloud_firestore: ^3.0.0
   firebase_core: ^1.9.0
   fluttertoast: ^8.0.8
+  image_picker: ^0.8.4+4
+  percent_indicator: ^3.0.1
+
 
 flutter_icons:
   android: true
@@ -112,16 +117,16 @@ flutter_native_splash:
 
   # The image parameter allows you to specify an image used in the splash screen.  It must be a
   # png file and should be sized for 4x pixel density.
-  image: Images/oicon.png
+  image: Images/SplashW.png
 
   # The color_dark, background_image_dark, and image_dark are parameters that set the background
   # and image when the device is in dark mode. If they are not specified, the app will use the
   # parameters from above. If the image_dark parameter is specified, color_dark or
   # background_image_dark must be specified.  color_dark and background_image_dark cannot both be
   # set.
-  #color_dark: "#042a49"
+  color_dark: "#000000"
   #background_image_dark: "assets/dark-background.png"
-  #image_dark: assets/splash-invert.png
+  image_dark: Images/SplashD.png
 
   # The android, ios and web parameters can be used to disable generating a splash screen on a given
   # platform.

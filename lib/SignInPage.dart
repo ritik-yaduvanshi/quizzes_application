@@ -9,6 +9,7 @@ import 'package:quizzes_application/Alert.dart';
 import 'package:quizzes_application/SignUpPage.dart';
 import 'package:quizzes_application/Styling.dart';
 
+import 'ForgetPasswordPage.dart';
 import 'HomePage.dart';
 class SignInPage extends StatefulWidget {
   const SignInPage({Key? key}) : super(key: key);
@@ -148,6 +149,13 @@ class _SignInPageState extends State<SignInPage> {
                     emailField,
                     SizedBox(height: 10,),
                     passwordField,
+                    SizedBox(height: 10,),
+                    GestureDetector(
+                      child: Text('Forgot Password?',style: TextStyle(color: Colors.blueAccent),),
+                      onTap: (){
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=>ForgetPasswordPage()));
+                      },
+                    ),
                     SizedBox(height: 20,),
                     OutlinedButton(
                         onPressed: ()async{
@@ -222,7 +230,6 @@ class _SignInPageState extends State<SignInPage> {
         switch (error.code) {
           case "invalid-email":
             errorMessage = "Your email address appears to be malformed.";
-
             break;
           case "wrong-password":
             errorMessage = "Your password is wrong.";

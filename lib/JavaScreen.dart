@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
-class LogicalPage extends StatefulWidget {
-  const LogicalPage({Key? key}) : super(key: key);
+import 'package:quizzes_application/Styling.dart';
+class JavaScreen extends StatefulWidget {
+  const JavaScreen({Key? key}) : super(key: key);
 
   @override
-  _LogicalPageState createState() => _LogicalPageState();
+  _JavaScreenState createState() => _JavaScreenState();
 }
 
-class _LogicalPageState extends State<LogicalPage> {
+class _JavaScreenState extends State<JavaScreen> {
 
   static double heights=0.0;
   static double widths=0.0;
@@ -17,7 +18,7 @@ class _LogicalPageState extends State<LogicalPage> {
       width: widths,
       decoration: BoxDecoration(
         gradient: LinearGradient(
-          colors: [Colors.white,Colors.indigo,Colors.white],
+          colors: [Colors.white,Colors.orangeAccent,Colors.white],
           begin: Alignment.center,
           end: Alignment.bottomCenter,
         ),
@@ -43,9 +44,9 @@ class _LogicalPageState extends State<LogicalPage> {
     return Scaffold(
       backgroundColor: Colors.white60,
       appBar: AppBar(
-        title: Text('Logical Aptitude'),
+        title: Text('Java'),
         centerTitle: true,
-        backgroundColor: Colors.indigo,
+        backgroundColor: Colors.orangeAccent,
       ),
       body: Container(
         child: Center(
@@ -54,35 +55,27 @@ class _LogicalPageState extends State<LogicalPage> {
               children: <Widget>[
                 SizedBox(height: 15,),
                 GestureDetector(
-                  child: selectChoice(1, 'Alphanumeric series'),
+                    child: selectChoice(1, 'Introduction Of Basic Java'),
                   onTap: (){
-                    //To Do
+                      //To Do
                   },
                 ),
                 SizedBox(height: 15,),
-                selectChoice(2, 'Blood Relations'),
+                selectChoice(2, 'OOP Concept'),
                 SizedBox(height: 15,),
-                selectChoice(3, 'Coding-Decoding'),
+                selectChoice(3, 'String Handling'),
                 SizedBox(height: 15,),
-                selectChoice(4, 'Decision Making'),
+                selectChoice(4, 'Collection Framework'),
                 SizedBox(height: 15,),
-                selectChoice(5, 'Directions'),
+                selectChoice(5, 'Multithreading'),
                 SizedBox(height: 15,),
-                selectChoice(6, 'Dices'),
+                selectChoice(6, 'Exception Handling'),
                 SizedBox(height: 15,),
-                selectChoice(7, 'Input - Output'),
+                selectChoice(7, 'Generics'),
                 SizedBox(height: 15,),
-                selectChoice(8, 'Odd One Out'),
+                selectChoice(8, 'Synchronisation'),
                 SizedBox(height: 15,),
-                selectChoice(9, 'Paper Folding'),
-                SizedBox(height: 15,),
-                selectChoice(10, 'Pattern Series'),
-                SizedBox(height: 15,),
-                selectChoice(11, 'Seating Arrangements'),
-                SizedBox(height: 15,),
-                selectChoice(12, 'Statements And Conclusion'),
-                SizedBox(height: 15,),
-                selectChoice(13, 'Syllogism'),
+                selectChoice(9, 'JDBC'),
               ],
             ),
           ),

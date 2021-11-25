@@ -24,6 +24,15 @@ class Styling{
     );
   }
 
-
-
+  Widget texts(String text,double size,String family,Color value){
+    return Text(
+      '$text',textAlign: TextAlign.center,
+      style: TextStyle(
+        fontSize: size,
+        fontFamily: '$family',
+        fontWeight: FontWeight.bold,
+        color: value,
+      ),
+    );
+  }
 }
