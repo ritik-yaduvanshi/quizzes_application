@@ -81,9 +81,11 @@ class _FinalQuesScreenState extends State<FinalQuesScreen> {
           onPressed: (){
             setState(() {
               checkAns('${obj.getCorrAns()}','${obj.getChoice(listChoice)}');
-              obj.update();
               if(round==quesNo){
                 Alert(context,correctAns,wrongAns);
+              }
+              else{
+                obj.update();
               }
             });
           },

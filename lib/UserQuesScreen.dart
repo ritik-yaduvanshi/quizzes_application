@@ -200,7 +200,7 @@ class _UserQuesScreenState extends State<UserQuesScreen> {
             onPressed: (){
               setState(() {
                 obj.fillData(quesController.text,corrAnsController.text,firstChoice.text,secondChoice.text,thirdChoice.text,fourthChoice.text);
-                widgetList.removeAt(index-1);
+                widgetList.removeAt(index);
                 clearData();
               });
             },

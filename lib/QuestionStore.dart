@@ -65,6 +65,18 @@ class QuestionBank{
     res = '${userQuesList[_index].corrAns}';
     return res;
   }
+  //for review
+  String getQuestions(int index){
+    String res = '';
+    res = '${userQuesList[index].question}';
+    return res;
+  }
+  //get Corr ans
+  String getCorrAnswers(int index){
+    String res = '';
+    res = '${userQuesList[index].corrAns}';
+    return res;
+  }
 
   String getChoice(String listName){
     String res = '';

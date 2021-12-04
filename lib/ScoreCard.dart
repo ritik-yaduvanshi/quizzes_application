@@ -46,8 +46,8 @@ class _ScoreCardState extends State<ScoreCard> {
   Widget QuesView(){
     var CQuesList = ListView.builder(itemCount: totalQues,itemBuilder: (BuildContext context, int index)
     {return ListTile(
-      title: Text('${index+1}. ${obj.getQues()},',style: TextStyle(color: Colors.white),),
-      subtitle: Text('Answer : ${obj.getCorrAns()}',style: TextStyle(color: Colors.white),),
+      title: Text('${index+1}. ${obj.getQuestions(index)},',style: TextStyle(color: Colors.white),),
+      subtitle: Text('Answer : ${obj.getCorrAnswers(index)}',style: TextStyle(color: Colors.white),),
     );},
     );
     return CQuesList;
